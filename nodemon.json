@@ -1,0 +1,8 @@
+{
+	"watch": [
+		".env",
+		"src"
+	],
+	"ext": ".ts,.js",
+	"exec": "tsx ./src/index.ts"
+}
