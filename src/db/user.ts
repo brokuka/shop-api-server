@@ -18,6 +18,8 @@ export type TableUser = {
   group: string;
 };
 
+export type UpdateUserData = Omit<TableUser, "email" | "password" | "group">;
+
 const userTable = await pool.query(`SELECT to_regclass('public.user');`);
 export const isUserTableExist = Boolean(userTable.rows[0]["to_regclass"]);
 
@@ -46,6 +48,22 @@ export const insertUserTable = async (credentials: UserCredentials) => {
 		RETURNING *
 	`,
     [email, password]
+  );
+
+  return data.rows[0];
+};
+
+export const updateUserTable = async (info: UpdateUserData) => {
+  const { name, surname, middlename, user_id } = info;
+
+  const data = await pool.query<TableUser>(
+    `
+			UPDATE "user"
+			SET "name" = $1, surname = $2, middlename = $3
+			WHERE "user_id" = $4
+			RETURNING *
+		`,
+    [name, surname, middlename, user_id]
   );
 
   return data.rows[0];

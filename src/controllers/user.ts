@@ -1,4 +1,4 @@
-import { getUserById } from "../db/user.js";
+import { UpdateUserData, getUserById, updateUserTable } from "../db/user.js";
 import { Response, Request } from "express";
 
 export const user = async (req: Request, res: Response) => {
@@ -8,6 +8,41 @@ export const user = async (req: Request, res: Response) => {
     const { password: passwordHash, ...etc } = user;
 
     res.json({ ...etc });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+function checkObjectHasAnyKey(obj: Object, keys: string[]) {
+  for (let key in keys) {
+    if (keys[key] in obj) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export const updateUserData = async (req: Request, res: Response) => {
+  try {
+    const { middlename, name, surname } = req.body as Omit<
+      UpdateUserData,
+      "user_id"
+    >;
+
+    if (!middlename && !name && !surname) {
+      return res.status(400).json({ message: "Ошибка в теле запроса" });
+    }
+
+    const updatedInfo = await updateUserTable({
+      middlename,
+      name,
+      surname,
+      user_id: req.user_id,
+    });
+
+    const { password, ...etc } = updatedInfo;
+
+    res.json({ user: { ...etc }, message: "Профиль успешно изменён" });
   } catch (error) {
     console.log(error);
   }
