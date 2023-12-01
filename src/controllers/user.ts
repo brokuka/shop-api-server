@@ -13,15 +13,6 @@ export const user = async (req: Request, res: Response) => {
   }
 };
 
-function checkObjectHasAnyKey(obj: Object, keys: string[]) {
-  for (let key in keys) {
-    if (keys[key] in obj) {
-      return true;
-    }
-  }
-  return false;
-}
-
 export const updateUserData = async (req: Request, res: Response) => {
   try {
     const { middlename, name, surname } = req.body as Omit<
