@@ -10,7 +10,7 @@ const app = express();
 
 const origin = config.isProduction
   ? "https://shop-api-client.vercel.app"
-  : `http://localhost:${config.SERVER_PORT}`;
+  : "http://localhost:3000";
 
 app.use(cors({ credentials: true, origin }));
 app.use(cookieParser());
