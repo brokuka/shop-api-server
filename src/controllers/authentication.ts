@@ -164,8 +164,12 @@ export const logout = async (req: Request, res: Response) => {
       return res.sendStatus(204);
     }
 
-    res.clearCookie("token", { httpOnly: true });
-    res.clearCookie("session", { httpOnly: true });
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: config.isProduction,
+      path: "/",
+      sameSite: config.isProduction ? "none" : "lax",
+    });
     res.json({ message: "Выход произошёл успешно" });
   } catch (error) {
     console.log(error);
