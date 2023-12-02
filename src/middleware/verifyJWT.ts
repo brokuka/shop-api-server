@@ -39,6 +39,7 @@ export default async function verifyJWT(
           maxAge: config.COOKIE_TOKEN_LIFETIME,
           sameSite: config.isProduction ? "none" : "lax",
           secure: config.isProduction,
+          path: "/",
         });
 
         req.user_id = user_id;

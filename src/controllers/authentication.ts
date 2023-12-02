@@ -87,6 +87,7 @@ export const login = async (req: Request, res: Response) => {
       maxAge: config.COOKIE_TOKEN_LIFETIME,
       sameSite: config.isProduction ? "none" : "lax",
       secure: config.isProduction,
+      path: "/",
     });
 
     const { password: passwordHash, ...etc } = user;
@@ -144,6 +145,7 @@ export const refresh = async (req: Request, res: Response) => {
           maxAge: config.COOKIE_TOKEN_LIFETIME,
           sameSite: config.isProduction ? "none" : "lax",
           secure: config.isProduction,
+          path: "/",
         });
 
         return res.json({ message: "Токен использования обновлён" });
