@@ -85,7 +85,6 @@ export const login = async (req: Request, res: Response) => {
     res.cookie("token", accessToken, {
       httpOnly: true,
       maxAge: config.COOKIE_TOKEN_LIFETIME,
-      expires: new Date(new Date().getTime() + config.COOKIE_TOKEN_LIFETIME),
       sameSite: config.isProduction ? "none" : "lax",
       secure: config.isProduction,
       path: "/",
@@ -144,9 +143,6 @@ export const refresh = async (req: Request, res: Response) => {
         res.cookie("token", accessToken, {
           httpOnly: true,
           maxAge: config.COOKIE_TOKEN_LIFETIME,
-          expires: new Date(
-            new Date().getTime() + config.COOKIE_TOKEN_LIFETIME
-          ),
           sameSite: config.isProduction ? "none" : "lax",
           secure: config.isProduction,
           path: "/",
