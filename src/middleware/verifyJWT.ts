@@ -37,6 +37,9 @@ export default async function verifyJWT(
         res.cookie("token", accessToken, {
           httpOnly: true,
           maxAge: config.COOKIE_TOKEN_LIFETIME,
+          expires: new Date(
+            new Date().getTime() + config.COOKIE_TOKEN_LIFETIME
+          ),
           sameSite: config.isProduction ? "none" : "lax",
           secure: config.isProduction,
           path: "/",
