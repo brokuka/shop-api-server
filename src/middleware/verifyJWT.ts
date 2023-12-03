@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import config from "../config.js";
-import cookie from "js-cookie";
 
 export default async function verifyJWT(
   req: Request,
@@ -42,12 +41,6 @@ export default async function verifyJWT(
           secure: config.isProduction,
           path: "/",
         });
-
-        // cookie.set("token", accessToken, {
-        //   sameSite: config.isProduction ? "none" : "lax",
-        //   secure: config.isProduction,
-        //   expires: config.COOKIE_TOKEN_LIFETIME,
-        // });
 
         req.user_id = user_id;
         req.group = group;

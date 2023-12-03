@@ -9,7 +9,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { insertTokenTable } from "../db/token.js";
 import config from "../config.js";
-import cookie from "js-cookie";
 
 export const register = async (req: Request, res: Response) => {
   try {
@@ -91,12 +90,6 @@ export const login = async (req: Request, res: Response) => {
       path: "/",
     });
 
-    // cookie.set("token", accessToken, {
-    //   sameSite: config.isProduction ? "none" : "lax",
-    //   secure: config.isProduction,
-    //   expires: config.COOKIE_TOKEN_LIFETIME,
-    // });
-
     const { password: passwordHash, ...etc } = user;
 
     res.json({ ...etc, session: sessionToken });
@@ -154,11 +147,6 @@ export const refresh = async (req: Request, res: Response) => {
           secure: config.isProduction,
           path: "/",
         });
-        // cookie.set("token", accessToken, {
-        //   sameSite: config.isProduction ? "none" : "lax",
-        //   secure: config.isProduction,
-        //   expires: config.COOKIE_TOKEN_LIFETIME,
-        // });
 
         return res.json({ message: "Токен использования обновлён" });
       }
