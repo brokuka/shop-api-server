@@ -12,6 +12,7 @@ import {
 import {
   TableOrder,
   getOrderById,
+  getOrderByUserId,
   getOrdersByUserId,
   insertOrderTable,
 } from "../db/order.js";
@@ -104,13 +105,23 @@ export const getOrder = async (req: Request<OrderParam>, res: Response) => {
     const order_id = Number(req.params.order_id);
 
     if (!order_id) {
-      return res.status(400).json({ message: "Ошибка в параметрах запроса" });
+      return res
+        .status(400)
+        .json({ data: null, message: "Ошибка в параметрах запроса" });
     }
 
     const existingOrder = await getOrderById(order_id);
 
     if (!existingOrder) {
-      return res.status(400).json({ message: "Ошибка в параметрах запроса" });
+      return res
+        .status(400)
+        .json({ data: null, message: "Ошибка в параметрах запроса" });
+    }
+
+    const hasUserExactOrder = await getOrderByUserId(req.user_id, order_id);
+
+    if (!hasUserExactOrder) {
+      return res.status(403).json({ message: "Ошибка доступа" });
     }
 
     const existingOrderItems = await getOrderItemsByOrderId(
@@ -153,7 +164,7 @@ export const getOrders = async (req: Request, res: Response) => {
     const existingOrders = await getOrdersByUserId(req.user_id);
 
     if (!existingOrders) {
-      return res.json({ message: "Заказы пусты" });
+      return res.json({ data: null, message: "Заказы пусты" });
     }
 
     const orderItems = await getOrderItems();
@@ -166,8 +177,6 @@ export const getOrders = async (req: Request, res: Response) => {
       })
     );
 
-    if (!formatedProducts) return;
-
     const formatedOrders = [] as FormatedOrders[];
 
     if (formatedProducts) {
@@ -179,7 +188,7 @@ export const getOrders = async (req: Request, res: Response) => {
       });
     }
 
-    res.json(formatedOrders);
+    res.json({ data: formatedOrders });
   } catch (error) {
     console.log(error);
   }

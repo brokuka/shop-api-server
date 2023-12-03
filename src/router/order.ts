@@ -5,6 +5,6 @@ import verifySession from "../middleware/verifySession.js";
 
 export default (router: Router) => {
   router.post("/order", verifySession, verifyJWT, order);
-  router.get("/order/:order_id", verifySession, verifyJWT, getOrder);
-  router.get("/order", verifySession, verifyJWT, getOrders);
+  router.post("/order/:order_id", verifySession, verifyJWT, getOrder);
+  router.get("/order", verifyJWT, getOrders);
 };

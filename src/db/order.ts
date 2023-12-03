@@ -71,6 +71,31 @@ export const getOrderById = async (order_id: number) => {
   }
 };
 
+export const getOrderByUserId = async (user_id: number, order_id: number) => {
+  try {
+    const data = await pool.query<TableOrder>(
+      `
+		SELECT *
+		FROM "order" WHERE "user_id" = ($1) and "order_id" = ($2)
+	`,
+      [user_id, order_id]
+    );
+
+    if (!data.rows[0]) {
+      throw new Error("Пользователь не имеет заказов");
+    }
+
+    const formatedOrder: TableOrder = {
+      ...data.rows[0],
+      total_price: Number(data.rows[0].total_price),
+    };
+
+    return formatedOrder;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getOrdersByUserId = async (user_id: number) => {
   try {
     const data = await pool.query<TableOrder>(
