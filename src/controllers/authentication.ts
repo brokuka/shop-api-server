@@ -9,6 +9,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { insertTokenTable } from "../db/token.js";
 import config from "../config.js";
+import cookie from "js-cookie";
 
 export const register = async (req: Request, res: Response) => {
   try {
@@ -82,13 +83,18 @@ export const login = async (req: Request, res: Response) => {
 
     const sessionToken = jwt.sign({ user_id }, config.SECRET_SESSION_TOKEN);
 
-    res.cookie("token", accessToken, {
-      httpOnly: true,
-      maxAge: config.COOKIE_TOKEN_LIFETIME,
+    // res.cookie("token", accessToken, {
+    //   httpOnly: true,
+    //   maxAge: config.COOKIE_TOKEN_LIFETIME,
+    //   sameSite: config.isProduction ? "none" : "lax",
+    //   secure: config.isProduction,
+    //   path: "/",
+    // });
+
+    cookie.set("token", accessToken, {
       sameSite: config.isProduction ? "none" : "lax",
       secure: config.isProduction,
-      path: "/",
-      domain: "",
+      expires: config.COOKIE_TOKEN_LIFETIME,
     });
 
     const { password: passwordHash, ...etc } = user;
@@ -141,12 +147,17 @@ export const refresh = async (req: Request, res: Response) => {
           { expiresIn: config.ACCESS_TOKEN_EXPIRE_TIME }
         );
 
-        res.cookie("token", accessToken, {
-          httpOnly: true,
-          maxAge: config.COOKIE_TOKEN_LIFETIME,
+        // res.cookie("token", accessToken, {
+        //   httpOnly: true,
+        //   maxAge: config.COOKIE_TOKEN_LIFETIME,
+        //   sameSite: config.isProduction ? "none" : "lax",
+        //   secure: config.isProduction,
+        //   path: "/",
+        // });
+        cookie.set("token", accessToken, {
           sameSite: config.isProduction ? "none" : "lax",
           secure: config.isProduction,
-          path: "/",
+          expires: config.COOKIE_TOKEN_LIFETIME,
         });
 
         return res.json({ message: "Токен использования обновлён" });
