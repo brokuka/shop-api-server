@@ -88,6 +88,7 @@ export const login = async (req: Request, res: Response) => {
       sameSite: config.isProduction ? "none" : "lax",
       secure: config.isProduction,
       path: "/",
+      domain: "",
     });
 
     const { password: passwordHash, ...etc } = user;

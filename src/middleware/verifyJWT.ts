@@ -40,6 +40,7 @@ export default async function verifyJWT(
           sameSite: config.isProduction ? "none" : "lax",
           secure: config.isProduction,
           path: "/",
+          domain: "shop-api-client.vercel.app",
         });
 
         req.user_id = user_id;
