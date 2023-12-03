@@ -35,19 +35,19 @@ export default async function verifyJWT(
           }
         );
 
-        // res.cookie("token", accessToken, {
-        //   httpOnly: true,
-        //   maxAge: config.COOKIE_TOKEN_LIFETIME,
-        //   sameSite: config.isProduction ? "none" : "lax",
-        //   secure: config.isProduction,
-        //   path: "/",
-        // });
-
-        cookie.set("token", accessToken, {
+        res.cookie("token", accessToken, {
+          httpOnly: true,
+          maxAge: config.COOKIE_TOKEN_LIFETIME,
           sameSite: config.isProduction ? "none" : "lax",
           secure: config.isProduction,
-          expires: config.COOKIE_TOKEN_LIFETIME,
+          path: "/",
         });
+
+        // cookie.set("token", accessToken, {
+        //   sameSite: config.isProduction ? "none" : "lax",
+        //   secure: config.isProduction,
+        //   expires: config.COOKIE_TOKEN_LIFETIME,
+        // });
 
         req.user_id = user_id;
         req.group = group;

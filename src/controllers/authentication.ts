@@ -83,19 +83,19 @@ export const login = async (req: Request, res: Response) => {
 
     const sessionToken = jwt.sign({ user_id }, config.SECRET_SESSION_TOKEN);
 
-    // res.cookie("token", accessToken, {
-    //   httpOnly: true,
-    //   maxAge: config.COOKIE_TOKEN_LIFETIME,
-    //   sameSite: config.isProduction ? "none" : "lax",
-    //   secure: config.isProduction,
-    //   path: "/",
-    // });
-
-    cookie.set("token", accessToken, {
+    res.cookie("token", accessToken, {
+      httpOnly: true,
+      maxAge: config.COOKIE_TOKEN_LIFETIME,
       sameSite: config.isProduction ? "none" : "lax",
       secure: config.isProduction,
-      expires: config.COOKIE_TOKEN_LIFETIME,
+      path: "/",
     });
+
+    // cookie.set("token", accessToken, {
+    //   sameSite: config.isProduction ? "none" : "lax",
+    //   secure: config.isProduction,
+    //   expires: config.COOKIE_TOKEN_LIFETIME,
+    // });
 
     const { password: passwordHash, ...etc } = user;
 
@@ -147,18 +147,18 @@ export const refresh = async (req: Request, res: Response) => {
           { expiresIn: config.ACCESS_TOKEN_EXPIRE_TIME }
         );
 
-        // res.cookie("token", accessToken, {
-        //   httpOnly: true,
-        //   maxAge: config.COOKIE_TOKEN_LIFETIME,
-        //   sameSite: config.isProduction ? "none" : "lax",
-        //   secure: config.isProduction,
-        //   path: "/",
-        // });
-        cookie.set("token", accessToken, {
+        res.cookie("token", accessToken, {
+          httpOnly: true,
+          maxAge: config.COOKIE_TOKEN_LIFETIME,
           sameSite: config.isProduction ? "none" : "lax",
           secure: config.isProduction,
-          expires: config.COOKIE_TOKEN_LIFETIME,
+          path: "/",
         });
+        // cookie.set("token", accessToken, {
+        //   sameSite: config.isProduction ? "none" : "lax",
+        //   secure: config.isProduction,
+        //   expires: config.COOKIE_TOKEN_LIFETIME,
+        // });
 
         return res.json({ message: "Токен использования обновлён" });
       }
