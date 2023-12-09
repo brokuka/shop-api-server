@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  database:
+    container_name: database
+    image: postgres:16.1-alpine
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=$DB_USER
+      - POSTGRES_PASSWORD=$DB_PASSWORD
+      - POSTGRES_DB=$DB_DATABASE
+    ports:
+      - $DB_PORT:$DOCKER_PORT
+  dev_app:
+    container_name: dev_app
+    depends_on:
+      - database
+    build:
+      context: .
+      target: dev
+    restart: unless-stopped
+    ports:
+      - $SERVER_PORT:$SERVER_PORT
+    stdin_open: true
+    tty: true
+  app:
+    container_name: app
+    depends_on:
+      - database
+    build:
+      context: .
+      target: prod
+    restart: unless-stopped
+    ports:
+      - $SERVER_PORT:$SERVER_PORT
+    stdin_open: true
+    tty: true
