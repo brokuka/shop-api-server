@@ -8,10 +8,9 @@ import config from "./config.js";
 
 const app = express();
 
-// const origin = config.isProduction
-//   ? "https://shop-api-client.vercel.app"
-//   : "http://localhost:3000";
-const origin = ["http://localhost:3000", "https://shop-api-client.vercel.app"];
+const origin = config.isProduction
+  ? "https://shop-api-client.vercel.app"
+  : "http://localhost:3000";
 
 app.use(cors({ credentials: true, origin }));
 app.use(cookieParser());
