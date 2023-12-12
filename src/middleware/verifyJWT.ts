@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import config from "../config.js";
-import { errorResponse } from "utils/common.js";
+import { errorResponse } from "../utils/common.js";
 
 export default async function verifyJWT(
   req: Request,
