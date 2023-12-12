@@ -1,4 +1,4 @@
-import { badRequest, customResponse } from "utils/common.js";
+import { badRequest, customResponse } from "../utils/common.js";
 import { UpdateUserData, getUserById, updateUserTable } from "../db/user.js";
 import { Response, Request } from "express";
 

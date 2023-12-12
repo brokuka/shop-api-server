@@ -1,4 +1,4 @@
-import { customResponse, errorResponse } from "utils/common.js";
+import { customResponse, errorResponse } from "../utils/common.js";
 import { getAllProducts, getProduct } from "../db/product.js";
 import { Request, Response } from "express";
 
