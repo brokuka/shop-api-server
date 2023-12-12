@@ -83,7 +83,12 @@ export const getCartItemByProductId = async (product_id: number) => {
       throw new Error("Продукт не найден в корзине");
     }
 
-    return data.rows[0];
+    const formatedData: TableCartItem = {
+      ...data.rows[0],
+      price: Number(data.rows[0].price),
+    };
+
+    return formatedData;
   } catch (error) {
     return null;
   }
@@ -97,28 +102,45 @@ export const getCartItemsByCartId = async (cart_id: number) => {
 	`,
     [cart_id]
   );
-  return data.rows;
+
+  const formatedCartItems = [] as TableCartItem[];
+  data.rows.forEach((item) => {
+    formatedCartItems.push({ ...item, price: Number(item.price) });
+  });
+
+  return formatedCartItems;
 };
 
-export const updateCartItemByProductId = async (
+/**
+ *
+ * @param type -
+ * 			`change` - заменяет, `update` - обновляет продукт в корзине
+ */
+export const editCartItemByProductId = async (
   product_id: number,
-  quantity: number
+  quantity: number,
+  type: "change" | "update" = "update"
 ) => {
-  try {
-    const data = await pool.query<TableCartItem>(
-      `
+  const data = await pool.query<TableCartItem>(
+    `
 		UPDATE "cart_item"
-		SET "quantity" = $1
+		SET ${
+      type === "update"
+        ? "quantity = quantity + $1, price = price * (quantity + $1) / quantity"
+        : "quantity = $1::integer, price = price * $1 / quantity"
+    }
 		WHERE "product_id" = $2
 		RETURNING *
 	`,
-      [quantity, product_id]
-    );
+    [quantity, product_id]
+  );
 
-    return data.rows[0];
-  } catch (error) {
-    console.log(error);
-  }
+  const formatedData: TableCartItem = {
+    ...data.rows[0],
+    price: Number(data.rows[0].price),
+  };
+
+  return formatedData;
 };
 
 export const deleteCartItemByProductId = async (product_id: number) => {

@@ -20,21 +20,21 @@ import config from "./config.js";
 app.listen(config.SERVER_PORT, async () => {
   console.log(`Listening: http://localhost:${config.SERVER_PORT}`);
 
-  // Получаем мок данные и обрабатываем их
-  const { data } = await axios.get("https://fakestoreapi.com/products", {
-    transformResponse: (res) => {
-      const deserializedData = JSON.parse(res) as Product[];
-
-      return deserializedData.map((product): TableProduct => {
-        const { rating, id, ...etc } = product;
-
-        return { ...etc, product_id: id };
-      });
-    },
-  });
-
+  // Получаем мок данные и обрабатываем их и
   // Создаём таблицы если их нет в базе данных
   if (!isProductTableExist) {
+    const { data } = await axios.get("https://fakestoreapi.com/products", {
+      transformResponse: (res) => {
+        const deserializedData = JSON.parse(res) as Product[];
+
+        return deserializedData.map((product): TableProduct => {
+          const { rating, id, ...etc } = product;
+
+          return { ...etc, product_id: id };
+        });
+      },
+    });
+
     await createProductTable(data);
   }
 

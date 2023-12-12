@@ -36,20 +36,28 @@ export const insertCartTable = async (cart: InsertCart) => {
     [user_id, total_quantity, total_price]
   );
 
-  return data.rows[0];
+  const formatedData: TableCart = {
+    ...data.rows[0],
+    total_price: Number(data.rows[0].total_price),
+  };
+
+  return formatedData;
 };
 
 type UpdateCart = Omit<TableCart, "user_id">;
 export const updateCartTable = async (cart: UpdateCart) => {
   const { total_price, total_quantity, cart_id } = cart;
 
-  await pool.query(
+  const data = await pool.query<TableCart>(
     `
 		UPDATE "cart" SET total_price = ($1), total_quantity = ($2)
-		WHERE user_id = ($3)
+		WHERE cart_id = ($3)
+		RETURNING *
 	`,
     [total_price, total_quantity, cart_id]
   );
+
+  return data.rows[0];
 };
 
 export const dropCartTable = async () => {

@@ -1,3 +1,4 @@
+import { customResponse, errorResponse } from "utils/common.js";
 import { getAllProducts, getProduct } from "../db/product.js";
 import { Request, Response } from "express";
 
@@ -17,18 +18,19 @@ export const product = async (
     if (!hasProductId) {
       const allProduct = await getAllProducts();
 
-      return res.json(allProduct);
+      return customResponse(res, { data: allProduct });
     }
 
     const product = await getProduct(product_id);
 
     if (!product) {
-      return res
-        .status(404)
-        .json({ message: "Такого продукта нет в базе данных" });
+      return errorResponse(res, {
+        type: "NOT_FOUND",
+        message: "INVALID_PRODUCT",
+      });
     }
 
-    res.json({ ...product });
+    customResponse(res, { data: { ...product } });
   } catch (error) {
     console.log(error);
   }

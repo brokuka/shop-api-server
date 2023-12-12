@@ -1,6 +1,7 @@
 import config from "../config.js";
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import { badRequest, errorResponse } from "../utils/common.js";
 
 export default function verifySession(
   req: Request,
@@ -13,18 +14,18 @@ export default function verifySession(
       req.headers.authorization || (req.headers.Authorization as string);
 
     if (!authHeader) {
-      return res.status(401).json({ message: "Не авторизован" });
+      return errorResponse(res, "UNAUTHORIZED");
     }
 
     if (!user_id) {
-      return res.status(400).json({ message: "Ошибка в теле запроса" });
+      return badRequest(res);
     }
 
     const session = authHeader.split(" ")[1];
 
     jwt.verify(session, config.SECRET_SESSION_TOKEN, (error: any) => {
       if (error) {
-        return res.status(403).json({ message: "Ошибка доступа" });
+        return errorResponse(res, "FORBIDDEN");
       }
 
       req.user_id = user_id;

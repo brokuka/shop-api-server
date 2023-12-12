@@ -1,3 +1,4 @@
+import { badRequest, customResponse } from "utils/common.js";
 import { UpdateUserData, getUserById, updateUserTable } from "../db/user.js";
 import { Response, Request } from "express";
 
@@ -7,7 +8,7 @@ export const user = async (req: Request, res: Response) => {
 
     const { password: passwordHash, ...etc } = user;
 
-    res.json({ ...etc });
+    customResponse(res, { data: { ...etc } });
   } catch (error) {
     console.log(error);
   }
@@ -21,7 +22,7 @@ export const updateUserData = async (req: Request, res: Response) => {
     >;
 
     if (!middlename && !name && !surname) {
-      return res.status(400).json({ message: "Ошибка в теле запроса" });
+      return badRequest(res);
     }
 
     const updatedInfo = await updateUserTable({
@@ -33,7 +34,10 @@ export const updateUserData = async (req: Request, res: Response) => {
 
     const { password, ...etc } = updatedInfo;
 
-    res.json({ user: { ...etc }, message: "Профиль успешно изменён" });
+    customResponse(res, {
+      data: { ...etc },
+      message: "SUCCESS_PROFILE_EDIT",
+    });
   } catch (error) {
     console.log(error);
   }

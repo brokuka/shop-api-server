@@ -55,20 +55,16 @@ export const getAllProducts = async () => {
 };
 
 export const getProduct = async (product_id: number) => {
-  try {
-    const data = await pool.query<TableProduct>(
-      `
+  const data = await pool.query<TableProduct>(
+    `
 		SELECT *
 		FROM "product" WHERE "product_id" = $1
 	`,
-      [product_id]
-    );
+    [product_id]
+  );
 
-    // Мутируем ключ `price` для простого использования данных
-    data.rows[0].price = Number(data.rows[0].price);
+  // Мутируем ключ `price` для простого использования данных
+  data.rows[0].price = Number(data.rows[0].price);
 
-    return data.rows[0];
-  } catch (error) {
-    return null;
-  }
+  return data.rows[0];
 };

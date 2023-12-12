@@ -82,7 +82,7 @@ export const getOrderByUserId = async (user_id: number, order_id: number) => {
     );
 
     if (!data.rows[0]) {
-      throw new Error("Пользователь не имеет заказов");
+      throw new Error();
     }
 
     const formatedOrder: TableOrder = {
@@ -91,9 +91,7 @@ export const getOrderByUserId = async (user_id: number, order_id: number) => {
     };
 
     return formatedOrder;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const getOrdersByUserId = async (user_id: number) => {

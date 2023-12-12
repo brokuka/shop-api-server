@@ -9,21 +9,23 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { insertTokenTable } from "../db/token.js";
 import config from "../config.js";
+import { badRequest, customResponse, errorResponse } from "../utils/common.js";
 
 export const register = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body as UserCredentials;
 
     if (!email || !password) {
-      return res.status(400).json({ message: "Ошибка в теле запроса" });
+      return badRequest(res);
     }
 
     const existingUser = await getUserByEmail(email);
 
     if (existingUser) {
-      return res
-        .status(400)
-        .json({ message: "Пользователь с таким Email уже зарегистрирован" });
+      return errorResponse(res, {
+        type: "UNPROCESSABLE_ENTITY",
+        message: "EMAIL_EXIST",
+      });
     }
 
     const salt = await bcrypt.genSalt();
@@ -40,7 +42,7 @@ export const register = async (req: Request, res: Response) => {
 
     await insertTokenTable(user_id, refreshToken);
 
-    res.json({ message: "Регистрация успешно пройдена" });
+    customResponse(res, "SUCCESS_REGISTER");
   } catch (error) {
     console.log(error);
   }
@@ -51,23 +53,25 @@ export const login = async (req: Request, res: Response) => {
     const { email, password } = req.body as UserCredentials;
 
     if (!email || !password) {
-      return res.status(400).json({ message: "Ошибка в теле запроса" });
+      return badRequest(res);
     }
 
     const user = await getUserByEmail(email);
 
     if (!user) {
-      return res
-        .status(403)
-        .json({ message: "Неверно указаны пользовательские данные" });
+      return errorResponse(res, {
+        type: "UNPROCESSABLE_ENTITY",
+        message: "INVALID_USER_DATA",
+      });
     }
 
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {
-      return res
-        .status(403)
-        .json({ message: "Неверно указаны пользовательские данные" });
+      return errorResponse(res, {
+        type: "FORBIDDEN",
+        message: "INVALID_USER_DATA",
+      });
     }
 
     const { user_id, group } = user;
@@ -92,7 +96,10 @@ export const login = async (req: Request, res: Response) => {
 
     const { password: passwordHash, ...etc } = user;
 
-    res.json({ ...etc, session: sessionToken });
+    customResponse(res, {
+      message: "SUCCESS_LOGIN",
+      data: { ...etc, session: sessionToken },
+    });
   } catch (error) {
     console.log(error);
   }
@@ -103,14 +110,14 @@ export const refresh = async (req: Request, res: Response) => {
     const user_id = req.body.user_id;
 
     if (!user_id) {
-      return res.status(400).json({ message: "Ошибка в теле запроса" });
+      return badRequest(res);
     }
 
     const authHeader =
       req.headers.authorization || (req.headers.Authorization as string);
 
     if (!authHeader) {
-      return res.status(401).json({ message: "Не авторизован" });
+      return errorResponse(res, { type: "UNAUTHORIZED" });
     }
 
     const sessionToken = authHeader.split(" ")[1];
@@ -118,15 +125,15 @@ export const refresh = async (req: Request, res: Response) => {
     jwt.verify(
       sessionToken,
       config.SECRET_SESSION_TOKEN,
-      async (error: any, decoded: any) => {
+      async (error: any) => {
         if (error) {
-          return res.status(403).json({ message: "Ошибка доступа" });
+          return errorResponse(res, { type: "FORBIDDEN" });
         }
 
         const user = await getUserById(user_id);
 
         if (!user) {
-          return res.status(401).json({ message: "Не авторизован" });
+          return errorResponse(res, { type: "UNAUTHORIZED" });
         }
 
         const { group } = user;
@@ -147,8 +154,6 @@ export const refresh = async (req: Request, res: Response) => {
           secure: config.isProduction,
           path: "/",
         });
-
-        return res.json({ message: "Токен использования обновлён" });
       }
     );
   } catch (error) {
@@ -161,7 +166,7 @@ export const logout = async (req: Request, res: Response) => {
     const cookies = req.cookies;
 
     if (!cookies?.token) {
-      return res.sendStatus(204);
+      return errorResponse(res, { type: "FORBIDDEN" });
     }
 
     res.clearCookie("token", {
@@ -170,7 +175,8 @@ export const logout = async (req: Request, res: Response) => {
       path: "/",
       sameSite: config.isProduction ? "none" : "lax",
     });
-    res.json({ message: "Выход произошёл успешно" });
+
+    customResponse(res, "SUCCESS_LOGOUT");
   } catch (error) {
     console.log(error);
   }

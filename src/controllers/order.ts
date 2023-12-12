@@ -2,7 +2,12 @@ import { Response, Request } from "express";
 import { TableCartItem, getCartItemByProductId } from "../db/cart_item.js";
 import { clearCartTable, getCartByUserId } from "../db/cart.js";
 import { TableProduct, getProduct } from "../db/product.js";
-import { isObjectEmpty } from "../utils/common.js";
+import {
+  badRequest,
+  customResponse,
+  errorResponse,
+  isObjectEmpty,
+} from "../utils/common.js";
 import {
   TableOrderItem,
   getOrderItems,
@@ -27,7 +32,7 @@ export const order = async (req: Request, res: Response) => {
     const products = req.body.products as RequestBody[];
 
     if (!Array.isArray(products)) {
-      return res.status(400).json({ message: "Ошибка в теле запроса" });
+      return badRequest(res);
     }
 
     let isDataValid = false;
@@ -72,13 +77,13 @@ export const order = async (req: Request, res: Response) => {
     }
 
     if (!isDataValid) {
-      return res.status(400).json({ message: "Ошибка в теле запроса" });
+      return badRequest(res);
     }
 
     const existingCart = await getCartByUserId(req.user_id);
 
     if (!existingCart) {
-      return res.json({ message: "Корзина пуста" });
+      return customResponse(res, "EMPTY_CART");
     }
 
     const newOrder = await insertOrderTable({
@@ -90,7 +95,7 @@ export const order = async (req: Request, res: Response) => {
     await insertOrderItemsTable(newOrder.order_id, existingCartItems);
     await clearCartTable(req.user_id);
 
-    res.json({ message: "Заказ отправлен" });
+    customResponse(res, "SUCCESS_ORDER");
   } catch (error) {
     console.log(error);
   }
@@ -105,23 +110,19 @@ export const getOrder = async (req: Request<OrderParam>, res: Response) => {
     const order_id = Number(req.params.order_id);
 
     if (!order_id) {
-      return res
-        .status(400)
-        .json({ data: null, message: "Ошибка в параметрах запроса" });
+      return badRequest(res, "BAD_PARAMS");
     }
 
     const existingOrder = await getOrderById(order_id);
 
     if (!existingOrder) {
-      return res
-        .status(400)
-        .json({ data: null, message: "Ошибка в параметрах запроса" });
+      return badRequest(res, "BAD_PARAMS");
     }
 
     const hasUserExactOrder = await getOrderByUserId(req.user_id, order_id);
 
     if (!hasUserExactOrder) {
-      return res.status(403).json({ message: "Ошибка доступа" });
+      return errorResponse(res, "FORBIDDEN");
     }
 
     const existingOrderItems = await getOrderItemsByOrderId(
@@ -143,7 +144,7 @@ export const getOrder = async (req: Request<OrderParam>, res: Response) => {
       items: formatedProducts,
     };
 
-    res.json(formatedOrder);
+    customResponse(res, { data: formatedOrder });
   } catch (error) {
     console.log(error);
   }
@@ -164,7 +165,7 @@ export const getOrders = async (req: Request, res: Response) => {
     const existingOrders = await getOrdersByUserId(req.user_id);
 
     if (!existingOrders) {
-      return res.json({ data: null, message: "Заказы пусты" });
+      return customResponse(res, "EMPTY_ORDERS");
     }
 
     const orderItems = await getOrderItems();
@@ -188,7 +189,7 @@ export const getOrders = async (req: Request, res: Response) => {
       });
     }
 
-    res.json({ data: formatedOrders });
+    customResponse(res, { data: formatedOrders });
   } catch (error) {
     console.log(error);
   }

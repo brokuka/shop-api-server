@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import config from "../config.js";
+import { errorResponse } from "utils/common.js";
 
 export default async function verifyJWT(
   req: Request,
@@ -11,7 +12,7 @@ export default async function verifyJWT(
     const token = req.cookies.token;
 
     if (!token) {
-      return res.status(401).json({ message: "Не авторизован" });
+      return errorResponse(res, "UNAUTHORIZED");
     }
 
     jwt.verify(
@@ -19,9 +20,11 @@ export default async function verifyJWT(
       config.SECRET_ACCESS_TOKEN,
       async (error: any, decoded: any) => {
         if (error) {
-          return res.status(403).json({
-            message: "Ошибка доступа",
-          });
+          return errorResponse(res, "FORBIDDEN");
+        }
+
+        if (req.user_id && decoded.user_id !== req.user_id) {
+          return errorResponse(res, "FORBIDDEN");
         }
 
         const { group, user_id } = decoded;
