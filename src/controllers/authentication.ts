@@ -91,8 +91,7 @@ export const login = async (req: Request, res: Response) => {
 			maxAge: config.COOKIE_TOKEN_LIFETIME,
 			sameSite: config.isProduction ? "none" : "lax",
 			secure: config.isProduction,
-			path: "/",
-			domain: 'https://shop-api-client.vercel.app'
+			domain: '.vercel.app'
 		});
 
 		const { password: passwordHash, ...etc } = user;
