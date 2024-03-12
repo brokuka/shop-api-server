@@ -87,7 +87,7 @@ export const login = async (req: Request, res: Response) => {
 		const sessionToken = jwt.sign({ user_id }, config.SECRET_SESSION_TOKEN);
 
 		res.cookie("token", accessToken, {
-			httpOnly: true,
+			// httpOnly: true,
 			maxAge: config.COOKIE_TOKEN_LIFETIME,
 			sameSite: config.isProduction ? "none" : "lax",
 			secure: config.isProduction,
