@@ -151,7 +151,6 @@ export const refresh = async (req: Request, res: Response) => {
 					maxAge: config.COOKIE_TOKEN_LIFETIME,
 					sameSite: "none",
 					secure: config.isProduction,
-					path: "/",
 				});
 			}
 		);

@@ -7,7 +7,7 @@ import { notFound } from "./middleware/notFound.js";
 
 const app = express();
 
-const origin = ["http://localhost:3000", "http://localhost:3001", "https://www.shop-api.online"];
+const origin = ["http://localhost:3000", "https://shop-api.online"];
 
 app.use(cors({ credentials: true, origin }));
 app.use(cookieParser());
