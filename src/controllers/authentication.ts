@@ -89,9 +89,9 @@ export const login = async (req: Request, res: Response) => {
 		res.cookie("token", accessToken, {
 			httpOnly: true,
 			maxAge: config.COOKIE_TOKEN_LIFETIME,
-			sameSite: config.isProduction ? "none" : "lax",
+			sameSite: "none",
 			secure: config.isProduction,
-			domain: '.shop-api.online'
+			domain: 'shop-api.online'
 		});
 
 		const { password: passwordHash, ...etc } = user;
@@ -150,10 +150,10 @@ export const refresh = async (req: Request, res: Response) => {
 				res.cookie("token", accessToken, {
 					httpOnly: true,
 					maxAge: config.COOKIE_TOKEN_LIFETIME,
-					sameSite: config.isProduction ? "none" : "lax",
+					sameSite: "none",
 					secure: config.isProduction,
 					path: "/",
-					domain: '.shop-api.online'
+					domain: 'shop-api.online'
 				});
 			}
 		);
