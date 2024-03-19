@@ -91,7 +91,6 @@ export const login = async (req: Request, res: Response) => {
 			maxAge: config.COOKIE_TOKEN_LIFETIME,
 			sameSite: "none",
 			secure: config.isProduction,
-			domain: '.shop-api.online'
 		});
 
 		const { password: passwordHash, ...etc } = user;
@@ -153,7 +152,6 @@ export const refresh = async (req: Request, res: Response) => {
 					sameSite: "none",
 					secure: config.isProduction,
 					path: "/",
-					domain: '.shop-api.online'
 				});
 			}
 		);
