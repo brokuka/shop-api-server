@@ -87,10 +87,11 @@ export const login = async (req: Request, res: Response) => {
 		const sessionToken = jwt.sign({ user_id }, config.SECRET_SESSION_TOKEN);
 
 		res.cookie("token", accessToken, {
-			// httpOnly: true,
+			httpOnly: true,
 			maxAge: config.COOKIE_TOKEN_LIFETIME,
 			sameSite: config.isProduction ? "none" : "lax",
 			secure: config.isProduction,
+			domain: '.shop-api.online'
 		});
 
 		const { password: passwordHash, ...etc } = user;
@@ -152,6 +153,7 @@ export const refresh = async (req: Request, res: Response) => {
 					sameSite: config.isProduction ? "none" : "lax",
 					secure: config.isProduction,
 					path: "/",
+					domain: '.shop-api.online'
 				});
 			}
 		);
