@@ -1,5 +1,5 @@
 import type { Response } from 'express'
-import { pool } from 'db/index.js'
+import { pool } from '../db/index.js'
 import { CUSTOM_MESSAGE, ERROR, RESPONSE_DATA_LIMIT, SUCCESS_STATUS_CODE } from './constants.js'
 import type {
   CustomMessageKeys,
