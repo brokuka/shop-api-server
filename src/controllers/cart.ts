@@ -100,7 +100,7 @@ export async function getCart(req: Request, res: Response) {
     const cartItems = await getCartItemsByCartId(existingCart.cart_id)
     const formatedCartItems = await Promise.all(
       cartItems.map(async ({ cart_id, user_id, product_id, ...etc }) => {
-        const { price, ...product } = await getProduct(product_id)
+        const { ...product } = await getProduct(product_id)
 
         return { ...product, ...etc }
       }),
