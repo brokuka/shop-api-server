@@ -1,4 +1,4 @@
-import { cleanEnv, str, num } from "envalid";
+import { cleanEnv, num, str } from 'envalid'
 
 const config = cleanEnv(process.env, {
   SERVER_PORT: num(),
@@ -18,6 +18,6 @@ const config = cleanEnv(process.env, {
   DB_PORT: num(),
 
   DB_CONNECTION_STRING: str(),
-});
+})
 
-export default config;
+export default config

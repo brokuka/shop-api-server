@@ -1,9 +1,9 @@
-import pg from "pg";
-import config from "../config.js";
+import pg from 'pg'
+import config from '../config.js'
 
 const production = {
   connectionString: config.DB_CONNECTION_STRING,
-};
+}
 
 const dev = {
   database: config.DB_DATABASE,
@@ -11,6 +11,6 @@ const dev = {
   password: config.DB_PASSWORD,
   host: config.DB_HOST,
   port: config.DB_PORT,
-};
+}
 
-export const pool = new pg.Pool(config.isProduction ? production : dev);
+export const pool = new pg.Pool(config.isProduction ? production : dev)

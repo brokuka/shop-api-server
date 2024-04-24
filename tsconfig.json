@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
+    "baseUrl": "src",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "baseUrl": "src",
+    "typeRoots": ["./node_modules/@types", "./src/custom-types"],
+    "strict": true,
+    "noImplicitAny": true,
     "outDir": "dist",
     "sourceMap": true,
-    "noImplicitAny": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "typeRoots": ["./node_modules/@types", "./src/custom-types"]
+    "skipLibCheck": true
   },
   "include": ["src/**/*", "./api/*", "api"]
 }

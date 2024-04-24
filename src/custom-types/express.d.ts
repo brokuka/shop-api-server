@@ -1,6 +1,6 @@
 declare namespace Express {
   interface Request {
-    user_id: number;
-    group: string;
+    user_id: number
+    group: string
   }
 }
