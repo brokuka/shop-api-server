@@ -15,17 +15,20 @@ import {
 import { getProduct } from '../db/product.js'
 import { badRequest, customResponse, isObjectEmpty } from '../utils/common.js'
 
-interface RequestBody {
+interface DefaultBody {
   product_id: number
   quantity: number
 }
 
-export async function cart(req: Request, res: Response) {
+function bodyValidate(body: DefaultBody) {
+  return !isObjectEmpty(body)
+    && Boolean(body.product_id && body.quantity >= 1)
+}
+
+export async function cart(req: Request<any, any, DefaultBody>, res: Response) {
   try {
-    const body = req.body as RequestBody
-    const isValidBody
-      = !isObjectEmpty(req.body)
-      && Boolean(body.product_id && body.quantity >= 1)
+    const body = req.body
+    const isValidBody = bodyValidate(body)
 
     if (!isValidBody)
       return badRequest(res)
@@ -115,10 +118,10 @@ export async function getCart(req: Request, res: Response) {
   }
 }
 
-export async function updateCart(req: Request, res: Response) {
+export async function updateCart(req: Request<any, any, DefaultBody>, res: Response) {
   try {
-    const body = req.body as RequestBody
-    const isValidBody = Boolean(body.product_id && body.quantity >= 1)
+    const body = req.body
+    const isValidBody = bodyValidate(body)
 
     if (!isValidBody)
       return badRequest(res)
@@ -161,7 +164,7 @@ export async function updateCart(req: Request, res: Response) {
 }
 
 interface DeleteCartItem {
-  product_id: string
+  product_id?: string
 }
 
 export async function deleteCartItem(req: Request<DeleteCartItem>, res: Response) {
