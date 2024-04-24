@@ -63,6 +63,9 @@ FROM "product" WHERE "product_id" = $1
 [product_id],
   )
 
+  if (!data.rows[0])
+    return null
+
   // Мутируем ключ `price` для простого использования данных
   data.rows[0].price = Number(data.rows[0].price)
 
