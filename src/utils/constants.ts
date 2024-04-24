@@ -38,3 +38,5 @@ export const CUSTOM_MESSAGE = {
   INVALID_USER_DATA: 'Неверно указаны пользовательские данные',
   INVALID_PRODUCT: 'Такого продукта не существует',
 } as const
+
+export const RESPONSE_DATA_LIMIT = 10
