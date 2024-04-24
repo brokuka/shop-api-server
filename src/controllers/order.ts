@@ -28,14 +28,18 @@ import {
   insertOrderTable,
 } from '../db/order.js'
 
-interface RequestBody {
+interface DefaultBody {
+  products: BodyProduct[]
+}
+
+interface BodyProduct {
   product_id: number
   quantity: number
 }
 
-export async function order(req: Request, res: Response) {
+export async function order(req: Request<any, any, DefaultBody>, res: Response) {
   try {
-    const products = req.body.products as RequestBody[]
+    const products = req.body.products
 
     if (!Array.isArray(products))
       return badRequest(res)
@@ -43,7 +47,7 @@ export async function order(req: Request, res: Response) {
     let isDataValid = false
     const existingCartItems: TableCartItem[] = []
 
-    const previousItem = {} as RequestBody
+    const previousItem = {} as BodyProduct
     for (const item of products) {
       if (isObjectEmpty(item) || !item.product_id || !item.quantity) {
         isDataValid = false
@@ -106,7 +110,7 @@ export async function order(req: Request, res: Response) {
 }
 
 interface OrderParam {
-  order_id: string
+  order_id?: string
 }
 
 export async function getOrder(req: Request<OrderParam>, res: Response) {
