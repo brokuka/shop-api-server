@@ -1,5 +1,13 @@
+import type { Pagination, PaginationQuery, ResponseOptions } from 'utils/types.js'
+import { RESPONSE_DATA_LIMIT } from 'utils/constants.js'
+import { errorResponse, getPagination } from 'utils/common.js'
 import type { Product } from '../utils/schemas.js'
 import { pool } from './index.js'
+
+interface DefaultProductData {
+  data: TableProduct[]
+  pagination?: Pagination
+}
 
 export type TableProduct = Omit<Product, 'id' | 'rating'> & {
   product_id: number
@@ -42,16 +50,32 @@ export async function dropProductTable() {
   await pool.query('DROP TABLE "product"')
 }
 
-export async function getAllProducts() {
+export async function getAllProducts(pagination: Partial<PaginationQuery>) {
+  const { total, limit, orderBy, error, offset } = await getPagination(pagination, 'product')
+
+  console.log('@error', error)
+
+  if (error)
+    return null
+
   const data = await pool.query<TableProduct>(`
 SELECT *
-FROM "product"
-`)
+FROM "product" ${orderBy} LIMIT $1 OFFSET $2
+`, [limit, offset])
 
   // Мутируем ключ `price` для простого использования данных
   data.rows.forEach(item => (item.price = Number(item.price)))
 
-  return data.rows
+  console.log('@error', error)
+
+  return <DefaultProductData>{
+    data: data.rows,
+    pagination: {
+      rows: data.rowCount,
+      total,
+      offset,
+    },
+  }
 }
 
 export async function getProduct(product_id: number) {

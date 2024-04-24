@@ -1,21 +1,25 @@
 import type { Request, Response } from 'express'
-import { customResponse, errorResponse } from '../utils/common.js'
+import type { PaginationQuery } from 'utils/types.js'
+import { badRequest, customResponse, errorResponse } from '../utils/common.js'
 import { getAllProducts, getProduct } from '../db/product.js'
 
 export interface ProductRequestParams {
   product_id: number
 }
 
-export async function product(req: Request<ProductRequestParams>, res: Response) {
+export async function product(req: Request<ProductRequestParams, any, any, Partial<PaginationQuery>>, res: Response) {
   try {
     const { product_id } = req.params
 
     const hasProductId = Boolean(product_id)
 
     if (!hasProductId) {
-      const allProduct = await getAllProducts()
+      const allProduct = await getAllProducts(req.query)
 
-      return customResponse(res, { data: allProduct })
+      if (!allProduct)
+        return errorResponse(res, 'BAD_PARAMS')
+
+      return customResponse(res, allProduct)
     }
 
     const product = await getProduct(product_id)
