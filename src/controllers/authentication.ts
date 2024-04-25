@@ -90,7 +90,7 @@ export async function login(req: Request, res: Response) {
     res.cookie('token', accessToken, {
       httpOnly: true,
       maxAge: config.COOKIE_TOKEN_LIFETIME,
-      sameSite: 'none',
+      sameSite: config.isProduction ? 'none' : 'lax',
       secure: config.isProduction,
     })
 
@@ -113,8 +113,7 @@ export async function refresh(req: Request, res: Response) {
     if (!user_id)
       return badRequest(res)
 
-    const authHeader
-= req.headers.authorization || (req.headers.Authorization as string)
+    const authHeader = req.headers.authorization || (req.headers.Authorization as string)
 
     if (!authHeader)
       return errorResponse(res, { type: 'UNAUTHORIZED' })
@@ -147,9 +146,11 @@ export async function refresh(req: Request, res: Response) {
         res.cookie('token', accessToken, {
           httpOnly: true,
           maxAge: config.COOKIE_TOKEN_LIFETIME,
-          sameSite: 'none',
+          sameSite: config.isProduction ? 'none' : 'lax',
           secure: config.isProduction,
         })
+
+        customResponse(res, 'SUCCESS_REFRESH_TOKEN')
       },
     )
   }
