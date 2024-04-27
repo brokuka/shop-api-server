@@ -20,7 +20,7 @@ const htmlTplString = `
 <meta charset="UTF-8">
 <% robotsMetaString %>
 <title><% title %></title>
-<link rel="stylesheet" type="text/css" href="./swagger-ui.css" >
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.17.2/swagger-ui.js" >
 <% favIconString %>
 <style>
 html
