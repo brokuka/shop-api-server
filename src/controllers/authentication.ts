@@ -108,11 +108,6 @@ export async function login(req: Request, res: Response) {
 
 export async function refresh(req: Request, res: Response) {
   try {
-    const user_id = req.body.user_id
-
-    if (!user_id)
-      return badRequest(res)
-
     const authHeader = req.headers.authorization || (req.headers.Authorization as string)
 
     if (!authHeader)
@@ -127,7 +122,7 @@ export async function refresh(req: Request, res: Response) {
         if (error)
           return errorResponse(res, { type: 'FORBIDDEN' })
 
-        const user = await getUserById(user_id)
+        const user = await getUserById(req.user_id)
 
         if (!user)
           return errorResponse(res, { type: 'UNAUTHORIZED' })
@@ -136,7 +131,7 @@ export async function refresh(req: Request, res: Response) {
 
         const accessToken = jwt.sign(
           {
-            user_id,
+            user_id: req.user_id,
             group,
           },
           config.SECRET_ACCESS_TOKEN,
