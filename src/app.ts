@@ -4,7 +4,7 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import swaggerUi from 'swagger-ui-express'
 import swaggerJSDoc from 'swagger-jsdoc'
-import { swaggerCssUrl, swaggerOptions } from './lib/swagger.js'
+import { swaggerOptions } from './lib/swagger.js'
 import { synaxError } from './middleware/syntaxError.js'
 import router from './router/index.js'
 import { notFound } from './middleware/notFound.js'
@@ -19,7 +19,7 @@ app.use(cookieParser())
 app.use(express.json())
 
 app.use('/api', router())
-app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { customCssUrl: swaggerCssUrl }))
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { customCssUrl: '../public/swagger-ui.min.css' }))
 app.use('/swagger.json', (req, res) => {
   res.setHeader('Content-Type', 'application/json')
   res.send(swaggerSpec)

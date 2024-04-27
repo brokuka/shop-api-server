@@ -158,3 +158,5 @@
  *     category:
  *      type: string
  */
+
+export {}

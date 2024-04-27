@@ -1,8 +1,6 @@
 import type { Options } from 'swagger-jsdoc'
 import packageDoc from '../../package.json' assert { type: 'json' }
 
-export const swaggerCssUrl = 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui.min.css'
-
 export const swaggerOptions: Options = {
   definition: {
     openapi: '3.0.3',
