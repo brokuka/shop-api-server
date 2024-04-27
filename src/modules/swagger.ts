@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import type { NextFunction, Request, Response } from 'express'
 import express from 'express'
 import getAbsoluteSwaggerFsPath from 'swagger-ui-dist'
