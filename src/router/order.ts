@@ -47,7 +47,7 @@ export default (router: Router) => {
   /**
    * @openapi
    * '/api/order/:order_id':
-   *  post:
+   *  get:
    *   summary: Получить заказ
    *   description: |
    *    ### ```Обязательно: Требуется авторизация и токен сессии!```
