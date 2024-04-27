@@ -9,8 +9,8 @@ const router = Router()
 
 export default () => {
   authentication(router)
-  user(router)
   product(router)
+  user(router)
   cart(router)
   order(router)
 

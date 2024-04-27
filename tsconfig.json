@@ -3,6 +3,7 @@
     "baseUrl": "src",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "resolveJsonModule": true,
     "typeRoots": ["./node_modules/@types", "./src/custom-types"],
     "strict": true,
     "noImplicitAny": true,

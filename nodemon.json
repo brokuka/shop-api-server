@@ -4,5 +4,5 @@
     "src"
   ],
   "ext": ".ts,.js",
-  "exec": "tsx ./src/index.ts"
+  "exec": "tsx ./src/lib/swagger.ts && tsx ./src/index.ts"
 }
