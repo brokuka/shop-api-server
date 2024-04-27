@@ -1,7 +1,7 @@
 import type { Options } from 'swagger-jsdoc'
 import packageDoc from '../../package.json' assert { type: 'json' }
 
-// export const swaggerCssUrl = 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.6.3/swagger-ui.min.css'
+export const swaggerCssUrl = 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.3.0/swagger-ui.min.css'
 
 export const swaggerOptions: Options = {
   definition: {
