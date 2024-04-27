@@ -13,6 +13,7 @@
     "generate:swagger": "node ./src/lib/swagger.*"
   },
   "dependencies": {
+    "@types/swagger-ui-express": "^4.1.6",
     "axios": "^1.6.2",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
@@ -35,8 +36,6 @@
     "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "^20.9.2",
     "@types/pg": "^8.10.9",
-    "@types/swagger-jsdoc": "^6.0.4",
-    "@types/swagger-ui-express": "^4.1.6",
     "cross-env": "^7.0.3",
     "eslint": "npm:eslint-ts-patch",
     "eslint-plugin-format": "^0.1.1",
