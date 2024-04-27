@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express'
-import type { PaginationQuery } from 'utils/types.js'
-import { badRequest, customResponse, errorResponse } from '../utils/common.js'
+import type { PaginationQuery } from '../utils/types.js'
+import { customResponse, errorResponse } from '../utils/common.js'
 import { getAllProducts, getProduct } from '../db/product.js'
 
 export interface ProductRequestParams {
