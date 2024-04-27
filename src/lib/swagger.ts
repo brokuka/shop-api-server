@@ -9,7 +9,6 @@ export const swaggerOptions: Options = {
       description: 'Документация по API',
       version: packageDoc.version,
     },
-    host: 'localhost:5000/api',
     components: {
       securitySchemes: {
         bearerAuth: {
