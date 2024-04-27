@@ -1,4 +1,4 @@
-export default (function () {
+export default function swaggerSchemas() {
   /**
    * @openapi
    * definitions:
@@ -159,4 +159,4 @@ export default (function () {
    *     category:
    *      type: string
    */
-}())
+}
