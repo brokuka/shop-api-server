@@ -24,6 +24,7 @@ export const ERROR = {
 } as const
 
 export const CUSTOM_MESSAGE = {
+  WELCOME_MESSAGE: 'Welcome to the shop api =)',
   SUCCESS_REGISTER: 'Регистрация успешно пройдена',
   SUCCESS_LOGIN: 'Авторизация прошла успешна',
   SUCCESS_LOGOUT: 'Выход произошёл успешно',
