@@ -1,5 +1,5 @@
-import app from 'app.js'
 import axios from 'axios'
+import app from './app.js'
 import { createCartTable, isCartTableExist } from './db/cart.js'
 import { createCartItemTable, isCartItemTableExist } from './db/cart_item.js'
 import { createOrderTable, isOrderTableExist } from './db/order.js'
