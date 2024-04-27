@@ -1,5 +1,5 @@
 import type { Options } from 'swagger-jsdoc'
-import { AUTH_SCHEMAS, CART_SCHEMAS, ORDER_SCHEMAS, PRODUCT_SCHEMAS, USER_SCHEMAS, UTIL_SCHEMAS } from 'schemas/swagger.js'
+import { AUTH_SCHEMAS, CART_SCHEMAS, ORDER_SCHEMAS, PRODUCT_SCHEMAS, USER_SCHEMAS, UTIL_SCHEMAS } from '../schemas/swagger.js'
 import packageDoc from '../../package.json' assert { type: 'json' }
 
 export const swaggerOptions: Options = {
