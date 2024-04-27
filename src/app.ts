@@ -8,10 +8,18 @@ import { swaggerOptions } from './lib/swagger.js'
 import { synaxError } from './middleware/syntaxError.js'
 import router from './router/index.js'
 import { notFound } from './middleware/notFound.js'
+import { AUTH_SCHEMAS, CART_SCHEMAS, ORDER_SCHEMAS, PRODUCT_SCHEMAS, USER_SCHEMAS, UTIL_SCHEMAS } from './schemas/swagger.js'
 
 const app = express()
 
-const swaggerSpec = swaggerJSDoc(swaggerOptions)
+const swaggerSpec = swaggerJSDoc(swaggerOptions({
+  ...AUTH_SCHEMAS,
+  ...CART_SCHEMAS,
+  ...ORDER_SCHEMAS,
+  ...PRODUCT_SCHEMAS,
+  ...USER_SCHEMAS,
+  ...UTIL_SCHEMAS,
+}))
 
 const origin = ['http://localhost:3000', 'https://shop-api.online']
 
