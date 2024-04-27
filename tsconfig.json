@@ -6,9 +6,9 @@
     "typeRoots": ["./node_modules/@types", "./src/custom-types"],
     "strict": true,
     "noImplicitAny": true,
-    "outDir": "dist",
+    "outDir": "./dist",
     "sourceMap": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*", "./api/*", "api"]
+  "include": ["./src/**/*", "./api/*", "api"]
 }
