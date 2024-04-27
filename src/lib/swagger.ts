@@ -1,6 +1,6 @@
 import type { Options } from 'swagger-jsdoc'
 import swaggerJSDoc from 'swagger-jsdoc'
-import { version } from '../../package.json'
+import { version } from '../../package.json' assert { type: 'json' }
 
 const options: Options = {
   definition: {
