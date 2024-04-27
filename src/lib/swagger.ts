@@ -3,7 +3,7 @@ import packageDoc from '../../package.json' assert { type: 'json' }
 
 export const swaggerOptions: Options = {
   definition: {
-    openapi: '3.1.0',
+    openapi: '3.0.3',
     info: {
       title: 'Shop Api',
       description: 'Документация по API',
@@ -33,9 +33,8 @@ export const swaggerOptions: Options = {
           type: 'object',
           properties: {
             data: {
-              type: [
-                'null',
-              ],
+              type: 'string',
+              nullable: true,
             },
             message: {
               type: 'string',
@@ -106,7 +105,8 @@ export const swaggerOptions: Options = {
               },
             },
             message: {
-              type: 'null',
+              type: 'string',
+              nullable: true,
             },
           },
         },
@@ -166,7 +166,8 @@ export const swaggerOptions: Options = {
               },
             },
             message: {
-              type: 'null',
+              type: 'string',
+              nullable: true,
             },
           },
         },
@@ -200,7 +201,8 @@ export const swaggerOptions: Options = {
               },
             },
             message: {
-              type: 'null',
+              type: 'string',
+              nullable: true,
             },
           },
         },
@@ -229,7 +231,8 @@ export const swaggerOptions: Options = {
               type: 'object',
             },
             message: {
-              type: 'null',
+              type: 'string',
+              nullable: true,
             },
           },
         },
@@ -259,6 +262,5 @@ export const swaggerOptions: Options = {
       },
     },
   },
-
-  apis: ['./src/router/*.*', './src/schemas/*.*'],
+  apis: ['./src/router/*.*'],
 }
