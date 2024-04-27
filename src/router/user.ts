@@ -1,15 +1,45 @@
-import type { NextFunction, Router } from 'express'
+import type { Router } from 'express'
 import verifyJWT from '../middleware/verifyJWT.js'
 import { updateUserData, user } from '../controllers/user.js'
 import verifySession from '../middleware/verifySession.js'
 
-function routeTag(req: any, res: any, next: NextFunction) {
-  // #swagger.tags = ['Product']
-
-  next()
-}
-
 export default (router: Router) => {
-  router.get('/user', routeTag, verifyJWT, user)
-  router.patch('/user', routeTag, verifySession, verifyJWT, updateUserData)
+  /**
+   * @openapi
+   * '/api/user':
+   *  get:
+   *   summary: Информация о пользователе
+   *   description: |
+   *    ### ```Обязательно: Требуется авторизация!```
+   *   tags:
+   *    - User
+   *   responses:
+   *     200:
+   *      content:
+   *       application/json:
+   *        schema:
+   *         $ref: '#/components/schemas/User'
+   *      description: OK
+   */
+  router.get('/user', verifyJWT, user)
+
+  /**
+   * @openapi
+   * '/api/user':
+   *  patch:
+   *   summary: Обновить данные пользователя
+   *   description: |
+   *    ### ```Обязательно: Требуется авторизация и токен сессии!```
+   *   tags:
+   *    - User
+   *   security:
+   *    - bearerAuth: []
+   *   requestBody:
+   *    required: true
+   *    content:
+   *     application/json:
+   *      schema:
+   *       $ref: '#/components/schemas/UserRequestBody'
+   */
+  router.patch('/user', verifySession, verifyJWT, updateUserData)
 }

@@ -13,6 +13,7 @@ export default (router: Router) => {
    * @openapi
    * '/api/cart':
    *  get:
+   *   summary: Получить всю корзину
    *   description: |
    *    ### ```Обязательно: Требуется авторизация!```
    *   tags:
@@ -31,6 +32,7 @@ export default (router: Router) => {
    * @openapi
    * '/api/cart':
    *  post:
+   *   summary: Добавления в корзину
    *   description: |
    *    ### ```Обязательно: Требуется авторизация и токен сессии!```
    *   tags:
@@ -57,6 +59,7 @@ export default (router: Router) => {
    * @openapi
    * '/api/cart/update':
    *  post:
+   *   summary: Обновления продукта в корзине
    *   description: |
    *    ### ```Обязательно: Требуется авторизация и токен сессии!```
    *   tags:
@@ -83,6 +86,7 @@ export default (router: Router) => {
    * @openapi
    * '/api/cart/:product_id':
    *  delete:
+   *   summary: Удаление продукта из корзины
    *   description: |
    *    ### ```Обязательно: Требуется авторизация и токен сессии!```
    *   tags:

@@ -6,6 +6,7 @@ export default (router: Router) => {
    * @openapi
    * '/api/product':
    *  get:
+   *   summary: Получить все продукты
    *   tags:
    *    - Product
    *   responses:
@@ -30,6 +31,7 @@ export default (router: Router) => {
    * @openapi
    * '/api/product/:product_id':
    *  get:
+   *   summary: Получить продукт
    *   tags:
    *    - Product
    *   responses:

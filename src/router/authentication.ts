@@ -13,6 +13,7 @@ export default (router: Router) => {
    * @openapi
    * '/api/auth/register':
    *  post:
+   *   summary: Регистрация
    *   tags:
    *    - Authorization
    *   requestBody:
@@ -35,6 +36,7 @@ export default (router: Router) => {
    * @openapi
    * '/api/auth/login':
    *  post:
+   *   summary: Авторизация
    *   tags:
    *    - Authorization
    *   requestBody:
@@ -63,8 +65,9 @@ export default (router: Router) => {
    * @openapi
    * '/api/auth/refresh':
    *  post:
+   *   summary: Обновление токен сессии
    *   description: |
-   *    ### ```Обязательно: Требуется токен сессии!```
+   *    ### ```Обязательно: Требуется текущий токен сессии!```
    *   tags:
    *    - Authorization
    *   security:
@@ -83,6 +86,7 @@ export default (router: Router) => {
    * @openapi
    * '/api/auth/logout':
    *  post:
+   *   summary: Выход из системы
    *   description: |
    *    ### ```Обязательно: Требуется токен сессии!```
    *   tags:

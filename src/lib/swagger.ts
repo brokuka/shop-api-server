@@ -259,6 +259,46 @@ export const swaggerOptions: Options = {
             },
           },
         },
+        User: {
+          type: 'object',
+          properties: {
+            user_id: {
+              type: 'number',
+            },
+            name: {
+              type: 'string',
+            },
+            surname: {
+              type: 'string',
+            },
+            middlename: {
+              type: 'string',
+            },
+            email: {
+              type: 'string',
+            },
+            group: {
+              type: 'string',
+            },
+          },
+        },
+        UserRequestBody: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+              nullable: true,
+            },
+            surname: {
+              type: 'string',
+              nullable: true,
+            },
+            middlename: {
+              type: 'string',
+              nullable: true,
+            },
+          },
+        },
       },
     },
   },

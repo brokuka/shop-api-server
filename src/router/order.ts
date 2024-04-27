@@ -8,6 +8,7 @@ export default (router: Router) => {
    * @openapi
    * '/api/order':
    *  get:
+   *   summary: Получить все заказы
    *   description: |
    *    ### ```Обязательно: Требуется авторизация!```
    *   tags:
@@ -26,6 +27,7 @@ export default (router: Router) => {
    * @openapi
    * '/api/order':
    *  post:
+   *   summary: Сделать заказ
    *   description: |
    *    ### ```Обязательно: Требуется авторизация и токен сессии!```
    *   tags:
@@ -46,6 +48,7 @@ export default (router: Router) => {
    * @openapi
    * '/api/order/:order_id':
    *  post:
+   *   summary: Получить заказ
    *   description: |
    *    ### ```Обязательно: Требуется авторизация и токен сессии!```
    *   tags:
