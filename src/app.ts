@@ -20,7 +20,7 @@ app.use(cookieParser())
 app.use(express.json())
 
 app.use('/api', router())
-app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { customCssUrl: '../public/swagger-ui.min.css', customJs: 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui-bundle.min.js' }))
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { customCssUrl: 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.17.2/swagger-ui.min.css', customJs: 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.17.2/swagger-ui-bundle.min.js' }))
 app.use('/swagger.json', (req, res) => {
   res.setHeader('Content-Type', 'application/json')
   res.send(swaggerSpec)
