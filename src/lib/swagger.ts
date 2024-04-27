@@ -1,6 +1,6 @@
 import type { Options } from 'swagger-jsdoc'
 import swaggerJSDoc from 'swagger-jsdoc'
-import { version } from '../../package.json' assert { type: 'json' }
+import packageDoc from '../../package.json' assert { type: 'json' }
 
 const options: Options = {
   definition: {
@@ -8,7 +8,7 @@ const options: Options = {
     info: {
       title: 'Shop Api',
       description: 'Документация по API',
-      version,
+      version: packageDoc.version,
     },
     host: 'localhost:5000/api',
     components: {
