@@ -1,9 +1,10 @@
 import type { NextFunction, Request, Response } from 'express'
+import { customResponse, errorResponse } from 'utils/common.js'
 
 export function notFound(req: Request, res: Response, next: NextFunction) {
   if (req.path === '/')
-    return res.json({ message: 'Welcome to the shop api =)' })
+    return customResponse(res, 'WELCOME_MESSAGE')
 
-  res.status(404).json({ message: 'Не правильный путь' })
+  errorResponse(res, 'NOT_FOUND')
   next()
 }
