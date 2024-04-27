@@ -1,8 +1,7 @@
 import type { Options } from 'swagger-jsdoc'
-import swaggerJSDoc from 'swagger-jsdoc'
 import packageDoc from '../../package.json' assert { type: 'json' }
 
-const options: Options = {
+export const swaggerOptions: Options = {
   definition: {
     openapi: '3.1.0',
     info: {
@@ -23,7 +22,4 @@ const options: Options = {
   },
 
   apis: ['./src/router/*.ts', './src/schema/swagger.ts'],
-
 }
-
-export const swaggerSpec = swaggerJSDoc(options)
