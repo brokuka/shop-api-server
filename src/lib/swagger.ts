@@ -3,7 +3,7 @@ import packageDoc from '../../package.json' assert { type: 'json' }
 
 export const swaggerOptions: Options = {
   definition: {
-    openapi: '3.0.3',
+    openapi: '3.1.0',
     info: {
       title: 'Shop Api',
       description: 'Документация по API',
