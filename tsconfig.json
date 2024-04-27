@@ -11,5 +11,6 @@
     "sourceMap": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*", "./api/*", "api"]
+  "include": ["src/**/*", "./api/*", "api"],
+  "exclude": ["/src/modules"]
 }
