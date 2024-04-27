@@ -2,6 +2,7 @@ import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
+import { synaxError } from './middleware/syntaxError.js'
 import router from './router/index.js'
 import { notFound } from './middleware/notFound.js'
 
@@ -16,5 +17,6 @@ app.use(express.json())
 app.use('/api', router())
 
 app.use(notFound)
+app.use(synaxError)
 
 export default app
