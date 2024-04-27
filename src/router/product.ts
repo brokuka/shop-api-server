@@ -20,7 +20,8 @@ export default (router: Router) => {
    *           items:
    *            $ref: '#/components/schemas/Product'
    *          message:
-   *           type: 'null'
+   *           type: string
+   *           nullable: true
    *      description: OK
    */
   router.get('/product', product)
@@ -41,7 +42,8 @@ export default (router: Router) => {
    *          data:
    *           $ref: '#/components/schemas/Product'
    *          message:
-   *           type: 'null'
+   *           type: string
+   *           nullable: true
    *      description: OK
    */
   router.get('/product/:product_id', product)

@@ -5,7 +5,7 @@ export const swaggerCssUrl = 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/
 
 export const swaggerOptions: Options = {
   definition: {
-    openapi: '3.1.0',
+    openapi: '3.0.3',
     info: {
       title: 'Shop Api',
       description: 'Документация по API',

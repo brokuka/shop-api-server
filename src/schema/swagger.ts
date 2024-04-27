@@ -13,8 +13,8 @@
  *    type: object
  *    properties:
  *     data:
- *      type:
- *      - 'null'
+ *      type: string
+ *      nullable: true
  *     message:
  *      type: string
  *   LoginResponse:
@@ -60,7 +60,8 @@
  *        items:
  *         $ref: '#/components/schemas/CartItem'
  *     message:
- *      type: 'null'
+ *      type: string
+ *      nullable: true
  *   CartItem:
  *    allOf:
  *     - $ref: '#/components/schemas/Product'
@@ -96,7 +97,8 @@
  *       price:
  *        type: number
  *     message:
- *      type: 'null'
+ *      type: string
+ *      nullable: true
  *   Order:
  *    type: object
  *    properties:
@@ -118,7 +120,8 @@
  *        items:
  *         $ref: '#/components/schemas/OrderItem'
  *     message:
- *      type: 'null'
+ *      type: string
+ *      nullable: true
  *   OrderItem:
  *    type: object
  *    properties:
@@ -137,7 +140,8 @@
  *     data:
  *      type: object
  *     message:
- *      type: 'null'
+ *      type: string
+ *      nullable: true
  *   Product:
  *    type: object
  *    properties:
