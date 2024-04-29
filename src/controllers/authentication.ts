@@ -10,7 +10,7 @@ import type {
   UserCredentials,
 } from '../db/user.js'
 import { insertTokenTable } from '../db/token.js'
-import config from '../config.js'
+import config, { cookieOptions } from '../config.js'
 import { badRequest, customResponse, errorResponse } from '../utils/common.js'
 
 export async function register(req: Request, res: Response) {
@@ -87,12 +87,7 @@ export async function login(req: Request, res: Response) {
 
     const sessionToken = jwt.sign({ user_id }, config.SECRET_SESSION_TOKEN)
 
-    res.cookie('token', accessToken, {
-      httpOnly: true,
-      maxAge: config.COOKIE_TOKEN_LIFETIME,
-      sameSite: config.isProduction ? 'none' : 'lax',
-      secure: config.isProduction,
-    })
+    res.cookie('token', accessToken, cookieOptions)
 
     const { password: passwordHash, ...etc } = user
 
@@ -138,12 +133,7 @@ export async function refresh(req: Request, res: Response) {
           { expiresIn: config.ACCESS_TOKEN_EXPIRE_TIME },
         )
 
-        res.cookie('token', accessToken, {
-          httpOnly: true,
-          maxAge: config.COOKIE_TOKEN_LIFETIME,
-          sameSite: config.isProduction ? 'none' : 'lax',
-          secure: config.isProduction,
-        })
+        res.cookie('token', accessToken, cookieOptions)
 
         customResponse(res, 'SUCCESS_REFRESH_TOKEN')
       },
@@ -161,12 +151,7 @@ export async function logout(req: Request, res: Response) {
     if (!cookies?.token)
       return errorResponse(res, { type: 'FORBIDDEN' })
 
-    res.clearCookie('token', {
-      httpOnly: true,
-      secure: config.isProduction,
-      path: '/',
-      sameSite: config.isProduction ? 'none' : 'lax',
-    })
+    res.clearCookie('token', cookieOptions)
 
     customResponse(res, 'SUCCESS_LOGOUT')
   }
