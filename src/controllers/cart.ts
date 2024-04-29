@@ -67,7 +67,7 @@ export async function cart(req: Request<any, any, DefaultBody>, res: Response) {
         total_quantity: newCartItem.quantity + existingCart.total_quantity,
       })
 
-      return customResponse(res, 'SUCCESS_ADD_TO_CART')
+      return customResponse(res, { data: newCartItem, message: 'SUCCESS_ADD_TO_CART' })
     }
 
     const updatedExistingCartItem = await editCartItemByProductId(
@@ -75,7 +75,7 @@ export async function cart(req: Request<any, any, DefaultBody>, res: Response) {
       quantity,
     )
 
-    await updateCartTable({
+    const changedCartItem = await updateCartTable({
       cart_id: existingCart.cart_id,
       total_price:
         existingCart.total_price
@@ -83,7 +83,7 @@ export async function cart(req: Request<any, any, DefaultBody>, res: Response) {
       total_quantity: existingCart.total_quantity + quantity,
     })
 
-    customResponse(res, { data: updatedExistingCartItem })
+    customResponse(res, { data: changedCartItem, message: 'SUCCESS_REFRESH_CART_ITEM' })
   }
   catch (error) {
     console.log(error)
@@ -160,7 +160,7 @@ export async function updateCart(req: Request<any, any, DefaultBody>, res: Respo
       total_quantity: existingCart.total_quantity,
     })
 
-    customResponse(res, { data: changedCartItem })
+    customResponse(res, { data: changedCartItem, message: 'SUCCESS_REFRESH_CART_ITEM' })
   }
   catch (error) {
     console.log(error)

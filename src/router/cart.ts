@@ -50,7 +50,7 @@ export default (router: Router) => {
    *      content:
    *       application/json:
    *        schema:
-   *         $ref: '#/components/schemas/MessageAndNullData'
+   *         $ref: '#/components/schemas/UpdatedCartItem'
    *      description: OK
    */
   router.post('/cart', verifySession, verifyJWT, cart)
