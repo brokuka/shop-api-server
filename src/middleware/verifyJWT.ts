@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
-import config from '../config.js'
+import config, { cookieOptions } from '../config.js'
 import { errorResponse } from '../utils/common.js'
 
 export default async function verifyJWT(
@@ -34,13 +34,7 @@ export default async function verifyJWT(
           },
         )
 
-        res.cookie('token', accessToken, {
-          httpOnly: true,
-          maxAge: config.COOKIE_TOKEN_LIFETIME,
-          sameSite: config.isProduction ? 'none' : 'lax',
-          secure: config.isProduction,
-          path: '/',
-        })
+        res.cookie('token', accessToken, cookieOptions)
 
         req.user_id = user_id
         req.group = group

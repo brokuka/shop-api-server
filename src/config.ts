@@ -1,4 +1,5 @@
 import { cleanEnv, num, str } from 'envalid'
+import type { CookieOptions } from 'express'
 
 const config = cleanEnv(process.env, {
   SERVER_PORT: num(),
@@ -19,5 +20,12 @@ const config = cleanEnv(process.env, {
 
   DB_CONNECTION_STRING: str(),
 })
+
+export const cookieOptions: CookieOptions = {
+  httpOnly: true,
+  maxAge: config.COOKIE_TOKEN_LIFETIME,
+  sameSite: config.isProduction ? 'none' : 'lax',
+  secure: config.isProduction,
+}
 
 export default config
