@@ -103,6 +103,9 @@ FROM "cart_item" WHERE "cart_id" = $1
 [cart_id],
   )
 
+  if (!data.rows[0])
+    return null
+
   const formatedCartItems = [] as TableCartItem[]
   data.rows.forEach((item) => {
     formatedCartItems.push({ ...item, price: Number(item.price) })

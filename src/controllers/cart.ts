@@ -98,6 +98,10 @@ export async function getCart(req: Request, res: Response) {
       return customResponse(res, 'EMPTY_CART')
 
     const cartItems = await getCartItemsByCartId(existingCart.cart_id)
+
+    if (!cartItems)
+      return customResponse(res, 'INVALID_CART_ID')
+
     const formatedCartItems = await Promise.all(
       cartItems.map(async ({ cart_id, user_id, product_id, ...etc }) => {
         const product = await getProduct(product_id)
@@ -111,7 +115,7 @@ export async function getCart(req: Request, res: Response) {
       items: formatedCartItems,
     }
 
-    return customResponse(res, { data })
+    customResponse(res, { data })
   }
   catch (error) {
     console.log(error)
