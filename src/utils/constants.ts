@@ -30,6 +30,7 @@ export const CUSTOM_MESSAGE = {
   SUCCESS_LOGOUT: 'Выход произошёл успешно',
   SUCCESS_REFRESH_TOKEN: 'Токен авторизации успешно обновлён',
   SUCCESS_ADD_TO_CART: 'Товар добавлен в корзину',
+  SUCCESS_REFRESH_CART_ITEM: 'Продукт успешно обновлён',
   SUCCESS_REMOVE_FROM_CART: 'Продукт успешно удалён из корзины',
   SUCCESS_ORDER: 'Заказ отправлен',
   SUCCESS_PROFILE_EDIT: 'Профиль успешно изменён',
