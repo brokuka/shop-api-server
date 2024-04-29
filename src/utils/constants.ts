@@ -39,6 +39,7 @@ export const CUSTOM_MESSAGE = {
   EMAIL_EXIST: 'Пользователь с таким Email уже зарегистрирован',
   INVALID_USER_DATA: 'Неверно указаны пользовательские данные',
   INVALID_PRODUCT: 'Такого продукта не существует',
+  INVALID_CART_ID: 'Неверно указан индификатор корзины',
 } as const
 
 export const RESPONSE_DATA_LIMIT = 10
