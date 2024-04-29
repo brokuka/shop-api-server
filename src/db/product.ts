@@ -52,8 +52,6 @@ export async function dropProductTable() {
 export async function getAllProducts(pagination: Partial<PaginationQuery>) {
   const { total, limit, orderBy, error, offset } = await getPagination(pagination, 'product')
 
-  console.log('@error', error)
-
   if (error)
     return null
 
@@ -64,8 +62,6 @@ FROM "product" ${orderBy} LIMIT $1 OFFSET $2
 
   // Мутируем ключ `price` для простого использования данных
   data.rows.forEach(item => (item.price = Number(item.price)))
-
-  console.log('@error', error)
 
   return <DefaultProductData>{
     data: data.rows,
