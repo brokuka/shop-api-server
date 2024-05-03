@@ -18,6 +18,7 @@
 - [dotenv](https://www.npmjs.com/package/dotenv) - знаю в ноде есть уже поддержка переменных окружения, но с этой либой работать куда удобнее.
 - [envalid](https://www.npmjs.com/package/envalid) - библиотека для типизации переменных окружения, если не будет переменной которая используется она оповестит в консоле.
 - [pg](https://www.npmjs.com/package/pg) - библиотека для удобной работы с базы данных [PostgreSQL](https://www.postgresql.org/).
+- [slug](https://www.npmjs.com/package/slug) - библиотека для преобразования строк (название продуктов).
 
 ## Установка зависимостей
 
