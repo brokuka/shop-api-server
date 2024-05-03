@@ -1,10 +1,15 @@
+import slugify from 'slug'
 import type { Pagination, PaginationQuery } from '../utils/types.js'
 import { getPagination } from '../utils/common.js'
 import type { Product } from '../utils/schemas.js'
 import { pool } from './index.js'
 
+interface Slug {
+  slug: string
+}
+
 interface DefaultProductData {
-  data: TableProduct[]
+  data: (TableProduct & Slug)[]
   pagination?: Pagination
 }
 
@@ -61,10 +66,14 @@ FROM "product" ${orderBy} LIMIT $1 OFFSET $2
 `, [limit, offset])
 
   // Мутируем ключ `price` для простого использования данных
-  data.rows.forEach(item => (item.price = Number(item.price)))
+  const newData = data.rows.map(product => ({
+    ...product,
+    price: Number(product.price),
+    slug: `${slugify(product.title)}-${product.product_id}`,
+  }))
 
   return <DefaultProductData>{
-    data: data.rows,
+    data: newData,
     pagination: {
       rows: data.rowCount,
       total,
@@ -82,11 +91,15 @@ FROM "product" WHERE "product_id" = $1
 [product_id],
   )
 
-  if (!data.rows[0])
+  const product = data.rows[0]
+
+  if (!product)
     return null
 
-  // Мутируем ключ `price` для простого использования данных
-  data.rows[0].price = Number(data.rows[0].price)
-
-  return data.rows[0]
+  return {
+    ...product,
+    // Мутируем ключ `price` для простого использования данных
+    price: Number(product.price),
+    slug: `${slugify(product.title)}-${product.product_id}`,
+  }
 }

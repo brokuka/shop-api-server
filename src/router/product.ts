@@ -48,5 +48,5 @@ export default (router: Router) => {
    *           nullable: true
    *      description: OK
    */
-  router.get('/product/:product_id', product)
+  router.get('/product/:productIdOrSlug', product)
 }

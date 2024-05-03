@@ -80,6 +80,9 @@ export const PRODUCT_SCHEMAS = {
       category: {
         type: 'string',
       },
+      slug: {
+        type: 'string',
+      },
     },
   },
 }

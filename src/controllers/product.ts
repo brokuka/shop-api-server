@@ -1,19 +1,20 @@
 import type { Request, Response } from 'express'
+import slugify from 'slug'
 import type { PaginationQuery } from '../utils/types.js'
 import { customResponse, errorResponse } from '../utils/common.js'
 import { getAllProducts, getProduct } from '../db/product.js'
 
 export interface ProductRequestParams {
-  product_id: number
+  productIdOrSlug: string
 }
 
 export async function product(req: Request<ProductRequestParams, any, any, Partial<PaginationQuery>>, res: Response) {
   try {
-    const { product_id } = req.params
+    const { productIdOrSlug } = req.params
 
-    const hasProductId = Boolean(product_id)
+    const hasProductIdOrSlug = Boolean(productIdOrSlug)
 
-    if (!hasProductId) {
+    if (!hasProductIdOrSlug) {
       const allProduct = await getAllProducts(req.query)
 
       if (!allProduct)
@@ -22,9 +23,21 @@ export async function product(req: Request<ProductRequestParams, any, any, Parti
       return customResponse(res, allProduct)
     }
 
+    const isOnlyProductId = Number.isInteger(Number(productIdOrSlug))
+    const product_id = Number(productIdOrSlug.match(/\d+$/)?.[0])
+
+    if (Number.isNaN(product_id)) {
+      return errorResponse(res, {
+        type: 'NOT_FOUND',
+        message: 'INVALID_PRODUCT',
+      })
+    }
+
     const product = await getProduct(product_id)
 
-    if (!product) {
+    const slug = !isOnlyProductId ? productIdOrSlug.replace(/(-\d+)$/, '') : ''
+
+    if (!product || product && !isOnlyProductId && slug !== slugify(product.title)) {
       return errorResponse(res, {
         type: 'NOT_FOUND',
         message: 'INVALID_PRODUCT',
