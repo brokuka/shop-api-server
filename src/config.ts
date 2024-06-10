@@ -12,13 +12,30 @@ const config = cleanEnv(process.env, {
   ACCESS_TOKEN_EXPIRE_TIME: str(),
   COOKIE_TOKEN_LIFETIME: num(),
 
-  DB_DATABASE: str(),
-  DB_USER: str(),
-  DB_PASSWORD: str(),
-  DB_HOST: str(),
-  DB_PORT: num(),
+  // Добавляем значение по умолчанию, т.к есть варианты подключения к базе данных
+  DB_DATABASE: str({
+    default: '',
+  }),
 
-  DB_CONNECTION_STRING: str(),
+  DB_USER: str({
+    default: '',
+  }),
+
+  DB_PASSWORD: str({
+    default: '',
+  }),
+
+  DB_HOST: str({
+    default: '',
+  }),
+
+  DB_PORT: num({
+    default: 5432,
+  }),
+
+  DB_CONNECTION_STRING: str({
+    default: '',
+  }),
 })
 
 export const cookieOptions: CookieOptions = {
